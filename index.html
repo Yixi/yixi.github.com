@@ -1,17 +1,887 @@
 <!doctype html>
-<html>
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>一兮</title>
+  <meta name="description" content="Yixi - Full Stack Developer | JavaScript, TypeScript, React, Vue, Unity">
+  <title>一兮 | Yixi - Developer Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-pink: #ff00ff;
+      --neon-cyan: #00ffff;
+      --neon-blue: #0080ff;
+      --neon-purple: #8000ff;
+      --neon-green: #00ff80;
+      --dark-bg: #0a0a0f;
+      --darker-bg: #050508;
+      --card-bg: rgba(15, 15, 25, 0.8);
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Animated Background */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(150px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-glow-1 {
+      top: -200px;
+      left: -200px;
+      background: var(--neon-purple);
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .bg-glow-2 {
+      bottom: -200px;
+      right: -200px;
+      background: var(--neon-cyan);
+      animation: float 25s ease-in-out infinite reverse;
+    }
+
+    .bg-glow-3 {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--neon-pink);
+      animation: pulse 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(50px, 50px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.2); }
+    }
+
+    /* Container */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Section */
+    .header {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .avatar-container {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid var(--neon-cyan);
+      box-shadow: 
+        0 0 20px var(--neon-cyan),
+        0 0 40px rgba(0, 255, 255, 0.3),
+        inset 0 0 20px rgba(0, 255, 255, 0.1);
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 20px var(--neon-cyan), 0 0 40px rgba(0, 255, 255, 0.3); }
+      50% { box-shadow: 0 0 30px var(--neon-cyan), 0 0 60px rgba(0, 255, 255, 0.5); }
+    }
+
+    .avatar-ring {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border: 2px solid var(--neon-pink);
+      border-radius: 50%;
+      animation: rotate 10s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 900;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+      animation: text-flicker 4s ease-in-out infinite;
+    }
+
+    @keyframes text-flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.8; }
+      94% { opacity: 1; }
+      95% { opacity: 0.9; }
+      96% { opacity: 1; }
+    }
+
+    .subtitle {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      color: var(--text-secondary);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      color: var(--neon-cyan);
+      max-width: 600px;
+      margin-bottom: 40px;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 4px;
+      color: var(--neon-cyan);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .social-link:hover::before {
+      left: 100%;
+    }
+
+    .social-link:hover {
+      background: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Section Styles */
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .section-title::before,
+    .section-title::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-pink));
+    }
+
+    .section-title::before {
+      left: 0;
+    }
+
+    .section-title::after {
+      right: 0;
+      background: linear-gradient(90deg, var(--neon-pink), transparent);
+    }
+
+    .section-title span {
+      background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Skills Section */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 0, 255, 0.3);
+      border-radius: 8px;
+      padding: 25px 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+    }
+
+    .skill-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--neon-pink);
+      box-shadow: 0 10px 30px rgba(255, 0, 255, 0.2);
+    }
+
+    .skill-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .skill-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+
+    .skill-level {
+      font-size: 0.85rem;
+      color: var(--neon-cyan);
+      margin-top: 5px;
+    }
+
+    /* Projects Section */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 30px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--neon-cyan), var(--neon-purple));
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 20px 40px rgba(0, 255, 255, 0.15);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .project-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem;
+      color: var(--neon-cyan);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .project-title:hover {
+      color: var(--neon-pink);
+    }
+
+    .project-stars {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--neon-pink);
+      font-size: 0.9rem;
+    }
+
+    .project-description {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tech-tag {
+      padding: 5px 12px;
+      background: rgba(128, 0, 255, 0.2);
+      border: 1px solid var(--neon-purple);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--neon-purple);
+    }
+
+    /* Stats Section */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(0, 128, 255, 0.3);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+    }
+
+    .stat-number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 10px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid rgba(255, 0, 255, 0.2);
+      margin-top: 60px;
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .footer-text span {
+      color: var(--neon-pink);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--neon-cyan);
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .scroll-indicator svg {
+      width: 30px;
+      height: 30px;
+      fill: var(--neon-cyan);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* Glitch Effect for Hover */
+    .glitch {
+      position: relative;
+    }
+
+    .glitch:hover::before,
+    .glitch:hover::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch:hover::before {
+      left: 2px;
+      text-shadow: -2px 0 var(--neon-pink);
+      animation: glitch-1 0.3s infinite;
+    }
+
+    .glitch:hover::after {
+      left: -2px;
+      text-shadow: 2px 0 var(--neon-cyan);
+      animation: glitch-2 0.3s infinite;
+    }
+
+    @keyframes glitch-1 {
+      0%, 100% { clip-path: inset(0 0 50% 0); }
+      50% { clip-path: inset(50% 0 0 0); }
+    }
+
+    @keyframes glitch-2 {
+      0%, 100% { clip-path: inset(50% 0 0 0); }
+      50% { clip-path: inset(0 0 50% 0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .section-title::before,
+      .section-title::after {
+        width: 50px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .social-links {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .social-link {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+      }
+    }
+
+    /* Scanline Effect */
+    .scanline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 0, 0, 0.02) 51%
+      );
+      background-size: 100% 4px;
+      opacity: 0.3;
+    }
+  </style>
 </head>
 <body>
+  <!-- Background Effects -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+  <div class="scanline"></div>
 
-<div style="text-align: center; margin: 50px auto">
-  BUILDING...>>>>>>>
-</div>
+  <!-- Header Section -->
+  <header class="header">
+    <div class="avatar-container">
+      <img src="https://avatars.githubusercontent.com/u/2418313?v=4" alt="Yixi Avatar" class="avatar" width="150" height="150" loading="lazy">
+      <div class="avatar-ring"></div>
+    </div>
+    <h1 class="title glitch" data-text="一兮">一兮</h1>
+    <p class="subtitle">Full Stack Developer</p>
+    <p class="tagline">
+      &lt; Crafting digital experiences with code /&gt;<br>
+      JavaScript · TypeScript · React · Unity · Smart Home
+    </p>
+    <div class="social-links">
+      <a href="https://github.com/Yixi" class="social-link" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        GitHub
+      </a>
+      <a href="mailto:yixi.y@outlook.com" class="social-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
+        </svg>
+        Email
+      </a>
+    </div>
+    <div class="scroll-indicator">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 21l-12-18h24z"/>
+      </svg>
+    </div>
+  </header>
+
+  <!-- Skills Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title"><span>// TECH STACK</span></h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-icon">⚡</div>
+          <div class="skill-name">JavaScript</div>
+          <div class="skill-level">Expert</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">📘</div>
+          <div class="skill-name">TypeScript</div>
+          <div class="skill-level">Expert</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">⚛️</div>
+          <div class="skill-name">React</div>
+          <div class="skill-level">Expert</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">💚</div>
+          <div class="skill-name">Vue</div>
+          <div class="skill-level">Advanced</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🎮</div>
+          <div class="skill-name">Unity</div>
+          <div class="skill-level">Advanced</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🏠</div>
+          <div class="skill-name">Home Assistant</div>
+          <div class="skill-level">Advanced</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🐦</div>
+          <div class="skill-name">Swift</div>
+          <div class="skill-level">Intermediate</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🎯</div>
+          <div class="skill-name">Dart/Flutter</div>
+          <div class="skill-level">Intermediate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title"><span>// FEATURED PROJECTS</span></h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/ChromeExtensionDocument" class="project-title" target="_blank" rel="noopener">ChromeExtensionDocument</a>
+            <span class="project-stars">★ 74</span>
+          </div>
+          <p class="project-description">Chrome插件中文开发文档（非官方）- 帮助中文开发者快速上手Chrome扩展开发</p>
+          <div class="project-tech">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Chrome Extension</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/outliner" class="project-title" target="_blank" rel="noopener">Outliner</a>
+            <span class="project-stars">★ 7</span>
+          </div>
+          <p class="project-description">使用React重构的Diigo大纲笔记应用，专注于知识管理与信息组织</p>
+          <div class="project-tech">
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Diigo</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/Y-BMW" class="project-title" target="_blank" rel="noopener">Y-BMW</a>
+            <span class="project-stars">★ 7</span>
+          </div>
+          <p class="project-description">生成宝马登录refresh token，用于Home Assistant BMW集成鉴权</p>
+          <div class="project-tech">
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Home Assistant</span>
+            <span class="tech-tag">BMW</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/YCityBuilding" class="project-title" target="_blank" rel="noopener">YCityBuilding</a>
+            <span class="project-stars">★ 7</span>
+          </div>
+          <p class="project-description">城市建造游戏项目，灵感来自SimCity和Cities Skyline</p>
+          <div class="project-tech">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">ShaderLab</span>
+            <span class="tech-tag">Game Dev</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/webpack5-react-typescript-starter" class="project-title" target="_blank" rel="noopener">Webpack5 React Starter</a>
+            <span class="project-stars">★ 3</span>
+          </div>
+          <p class="project-description">基于Webpack5的React + TypeScript项目模板，集成React Hooks、Router和Jest</p>
+          <div class="project-tech">
+            <span class="tech-tag">Webpack5</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">TypeScript</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/YPromise" class="project-title" target="_blank" rel="noopener">YPromise</a>
+            <span class="project-stars">★ 3</span>
+          </div>
+          <p class="project-description">JavaScript Promise库实现，深入理解异步编程原理</p>
+          <div class="project-tech">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Promise</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-number">51+</div>
+          <div class="stat-label">Repositories</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Years Coding</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">8+</div>
+          <div class="stat-label">Languages</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Stars Earned</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- More Projects Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title"><span>// MORE PROJECTS</span></h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/gpt-app-template" class="project-title" target="_blank" rel="noopener">GPT App Template</a>
+          </div>
+          <p class="project-description">基于Vite、React、Hono和OpenAI SDK的ChatGPT应用模板</p>
+          <div class="project-tech">
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">OpenAI</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/vite-react-typescript-starter" class="project-title" target="_blank" rel="noopener">Vite React Starter</a>
+          </div>
+          <p class="project-description">React Hooks + TypeScript + Vite 现代前端开发模板</p>
+          <div class="project-tech">
+            <span class="tech-tag">Vite</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">TypeScript</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/Y-BuildKite-Monitor" class="project-title" target="_blank" rel="noopener">Y-BuildKite-Monitor</a>
+          </div>
+          <p class="project-description">BuildKite CI/CD监控面板，适合在大屏幕上展示构建状态</p>
+          <div class="project-tech">
+            <span class="tech-tag">SCSS</span>
+            <span class="tech-tag">BuildKite</span>
+            <span class="tech-tag">Monitor</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/merlin-dashboard" class="project-title" target="_blank" rel="noopener">Merlin Dashboard</a>
+          </div>
+          <p class="project-description">Merlin路由器管理面板，现代化UI设计</p>
+          <div class="project-tech">
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Merlin</span>
+            <span class="tech-tag">Router</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/Y-Cardputer-lvgl-template" class="project-title" target="_blank" rel="noopener">Y-Cardputer-LVGL</a>
+          </div>
+          <p class="project-description">M5Stack Cardputer的LVGL图形库项目模板</p>
+          <div class="project-tech">
+            <span class="tech-tag">C</span>
+            <span class="tech-tag">LVGL</span>
+            <span class="tech-tag">Embedded</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <a href="https://github.com/Yixi/y-player" class="project-title" target="_blank" rel="noopener">Y-Player</a>
+          </div>
+          <p class="project-description">自定义视频播放器项目</p>
+          <div class="project-tech">
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Media</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer-text">
+      Designed & Built with <span>❤</span> by Yixi © 2024
+    </p>
+    <div class="footer-links">
+      <a href="https://github.com/Yixi" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/Yixi?tab=repositories" class="footer-link" target="_blank" rel="noopener">All Projects</a>
+    </div>
+  </footer>
 
 </body>
 </html>
